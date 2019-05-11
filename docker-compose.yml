@@ -1,0 +1,31 @@
+version: "3.0"
+services:
+  master:
+    build:
+      context: ./dockerfiles/jenkins
+    ports:
+    - 8080:8080
+    - 50000:50000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - default
+  worker:
+    build:
+      context: ./dockerfiles/worker
+  artifactory:
+    image: docker.bintray.io/jfrog/artifactory-oss:latest
+    ports:
+    - 8081:8081
+    networks:
+    - default
+  sonarqube:
+    build:
+      context: ./dockerfiles/sonar
+    ports:
+    - 9000:9000
+    networks:
+    - default
+
+networks:
+  default:
